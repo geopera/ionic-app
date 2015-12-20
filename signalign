@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Automates signing and aligning Android APKs as per
+# http://developer.android.com/tools/publishing/app-signing.html#signing-manually
+#
+# USAGE: signalign platforms/android/build/outputs/apk/android-release-unsigned.apk
+#
+set -e
+
+# configure the next two properties for your own certificate
+KEYSTORE_PATH="$HOME/.ssh/dsoluti-key.keystore"
+KEY_ALIAS="dsoluti"
+
+UNSIGNED_APK="$1"
+APK_NAME="$(basename "$UNSIGNED_APK" -unsigned.apk)"
+TARGET_DIR="$(dirname $UNSIGNED_APK)"
+SIGNED_APK="$TARGET_DIR/$APK_NAME-signed.apk"
+SIGNED_ALIGNED_APK="$TARGET_DIR/$APK_NAME-signed-aligned.apk"
+
+#BUILD_TOOLS_VERSION="$(ls -1 "$ANDROID_HOME/build-tools" | tail -n 1)"
+ZIPALIGN="/Users/dteixeira/Library/android-sdk-macosx/build-tools/22.0.1/zipalign"
+
+echo "Signing: $SIGNED_APK"
+cp "$UNSIGNED_APK" "$SIGNED_APK"
+jarsigner -sigalg MD5withRSA -digestalg SHA1 \
+  -keystore "$KEYSTORE_PATH" "$SIGNED_APK" "$KEY_ALIAS"
+
+echo "Aligning: $SIGNED_ALIGNED_APK"
+rm -f "$SIGNED_ALIGNED_APK"
+$ZIPALIGN -v 4 "$SIGNED_APK" "$SIGNED_ALIGNED_APK"
+
+echo "All done. Your final APK is $SIGNED_ALIGNED_APK"
