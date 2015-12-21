@@ -12,19 +12,20 @@
         </a>
 
     </ion-nav-buttons>
-    <ion-content >
+    <ion-content>
         <ion-list>
             <ion-item class="item item-icon-right" ng-repeat="story in stories">
-              <!--<i class="icon ion-android-more-vertical" ng-click="story.show = !story.show "></i>-->
-                <h2 ng-click="openLink(story.link)">{{story.title}}</h2>
-                <p  ng-click="openLink(story.link)">
-                    <!--<span ng-show="story.show">{{story.description}}</span>
+                <!--<i class="icon ion-android-more-vertical" ng-click="story.show = !story.show "></i>-->
+                <div ng-click="openLink(story.link)">
+                    <h2>{{story.title}}</h2>
+                    <p>
+                        <!--<span ng-show="story.show">{{story.description}}</span>
                     <br>-->
-                    <span am-time-ago="story.date"></span> - {{story.city}} {{story.description}}
-                </p>
+                        <span am-time-ago="story.date"></span> - {{story.city}} {{story.description}}
+                    </p>
+                </div>
                 <a class="icon icon-right" ng-class="getFavoriteIcon(story)" ng-click="addToFavorites(story)"></a>
             </ion-item>
-
         </ion-list>
         <ion-infinite-scroll distance="1%" on-infinite="loadOlderStories()"> </ion-infinite-scroll>
     </ion-content>

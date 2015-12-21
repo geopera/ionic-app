@@ -95,9 +95,9 @@
 
         $scope.getFavoriteIcon = function(favorite){
             if(FavoritesStore.get(favorite.id)){
-                return 'ion-android-favorite';
+                return 'ion-android-star';
             }else {
-                return 'ion-android-favorite-outline';
+                return 'ion-android-star-outline';
             }
         }
 
